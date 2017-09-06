@@ -54,12 +54,12 @@ public class Converter {
         List<List<String>> rs = new ArrayList<>();
         for (Sentence sentence : sentences) {
             List<String> item = new ArrayList<>();
-            String[] a = sentence.getSentence().toLowerCase().split("[^a-záàảãạăắằẳẵặâấầẩẫậđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]+");
+            String[] a = sentence.getSentence().toLowerCase().split("[^_a-záàảãạăắằẳẵặâấầẩẫậđéèẻẽẹêếềểễệíìỉĩịóòỏõọôốồổỗộơớờởỡợúùủũụưứừửữựýỳỷỹỵ]+");
             for (String i : a) {
-//                if (!stopwordList.contains(i)) {
-                item.add(i);
-                features.add(i);
-//                }
+                if (!stopwordList.contains(i)) {
+                    item.add(i);
+                    features.add(i);
+                }
             }
             rs.add(item);
         }
@@ -68,7 +68,7 @@ public class Converter {
 
     public List<List<Double>> toWord2Vec() {
         List<List<Double>> rs = new ArrayList<>();
-        
+
         List<List<String>> documents = splitText();
 
         TFIDFCalculator calculator = new TFIDFCalculator();

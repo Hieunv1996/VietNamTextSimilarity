@@ -7,7 +7,7 @@ package com.hieunv;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import vn.edu.vnu.uet.nlp.segmenter.UETSegmenter;
 
 /**
  *
@@ -15,12 +15,19 @@ import java.util.Set;
  */
 public class Main {
     public static void main(String[] args) {
-        Sentence a = new Sentence("em yêu anh không?");
+        Sentence a = new Sentence("làm thế nào để sửa máy ủi?");
         Sentence b = new Sentence("em không cần lựa chọn thứ hai");
         List<Sentence> lstSen = new ArrayList<>();
         lstSen.add(a);
         lstSen.add(b);
         
+        //Segment text using UETSegmenter+
+        String modelsPath = "models"; 
+	UETSegmenter segmenter = new UETSegmenter(modelsPath); // construct the segmenter
+        for(Sentence sentence : lstSen){
+            sentence.setSentence(segmenter.segment(sentence.getSentence()));
+            System.out.println(sentence.getSentence());
+        }
         
         Converter converter = new Converter(lstSen);
         List<List<Double>> vecList = converter.toWord2Vec();
@@ -40,6 +47,5 @@ public class Main {
                         + calculator.euclideanDistance(vecList.get(i), vecList.get(j)));
             }
         }
-        
     }
 }
